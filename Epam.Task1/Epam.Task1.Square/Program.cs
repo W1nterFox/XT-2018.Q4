@@ -10,6 +10,20 @@ namespace Epam.Task1.Square
     {
         static void Main(string[] args)
         {
+            DrawSquare(0);
+        }
+        static void DrawSquare(int num)
+        {
+            if (num <= 0) throw new ArgumentException("Value of argument should be more than 0");
+            for (int i = 0; i < num; i++)
+            {
+                for (int j = 0; j < num; j++)
+                {
+                    if (i == num / 2 && j == num / 2) Console.Write(" ");
+                    else Console.Write("*");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }

@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Task1.Sequence", "Epam.Task1.Sequence\Epam.Task1.Sequence.csproj", "{1407E2C8-5CE9-4570-9F9F-22E9BA26E252}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Task1.Simple", "Epam.Task1.Simple\Epam.Task1.Simple.csproj", "{2865FCA5-C8CC-4A8B-8191-7408CC0EF74C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Task1.Square", "Epam.Task1.Square\Epam.Task1.Square.csproj", "{68E6C917-1E1F-4450-BBA5-3D827C1D66A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{1407E2C8-5CE9-4570-9F9F-22E9BA26E252}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1407E2C8-5CE9-4570-9F9F-22E9BA26E252}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1407E2C8-5CE9-4570-9F9F-22E9BA26E252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2865FCA5-C8CC-4A8B-8191-7408CC0EF74C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2865FCA5-C8CC-4A8B-8191-7408CC0EF74C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2865FCA5-C8CC-4A8B-8191-7408CC0EF74C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2865FCA5-C8CC-4A8B-8191-7408CC0EF74C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E6C917-1E1F-4450-BBA5-3D827C1D66A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E6C917-1E1F-4450-BBA5-3D827C1D66A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E6C917-1E1F-4450-BBA5-3D827C1D66A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E6C917-1E1F-4450-BBA5-3D827C1D66A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
