@@ -15,6 +15,7 @@ namespace Epam.Task1.Simple
         }
         static bool IsSimpleNum(int num)
         {
+            if (num <= 0) throw new ArgumentException("Value of argument should be more than 0");
             for (int i = 2; i <= num/2; i++)
             {
                 if (num % 2 == 0) return false;
