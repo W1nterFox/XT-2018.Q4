@@ -10,7 +10,7 @@ namespace Epam.Task1.Square
     {
         static void Main(string[] args)
         {
-            DrawSquare(0);
+            DrawSquare(10);
         }
         static void DrawSquare(int num)
         {

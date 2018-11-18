@@ -10,7 +10,7 @@ namespace Epam.Task1.Sequence
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(GetSequenceNums(7));
+            Console.WriteLine(GetSequenceNums(10));
         }
         static string GetSequenceNums(int num)
         {
