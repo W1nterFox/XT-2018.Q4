@@ -29,7 +29,8 @@ namespace Epam.Task1_12.Char_doubler
                     sb.Append(ch);
                 }
             }
-            Console.WriteLine(sb.ToString());
+            str1 = sb.ToString();
+            Console.WriteLine(str1);
 
         }
     }

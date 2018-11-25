@@ -35,7 +35,7 @@ namespace Epam.Task1_8.No_positive
                 {
                     for (int k = 0; k < array.GetLength(2); k++)
                     {
-                        if (array[i, j, k] < 0)
+                        if (array[i, j, k] > 0)
                         {
                             array[i, j, k] = 0;
                         }
