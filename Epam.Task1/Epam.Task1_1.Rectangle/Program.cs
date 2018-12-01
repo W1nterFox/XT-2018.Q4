@@ -33,8 +33,7 @@ namespace Epam.Task1_1.Rectangle
                 Console.WriteLine(e.Source);
                 Console.WriteLine(e.StackTrace);
                 Console.WriteLine(e.ActualValue);
-            }
-            
+            }            
         }
     }
 }
