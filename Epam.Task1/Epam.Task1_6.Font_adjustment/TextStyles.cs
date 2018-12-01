@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Epam.Task1_6.Font_adjustment
 {
     [Flags]
-    enum TextStyles : byte
+    public enum TextStyles : byte
     {
         None = 0,
         Bold = 1,

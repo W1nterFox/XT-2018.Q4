@@ -6,22 +6,23 @@ using System.Threading.Tasks;
 
 namespace Epam.Task1_4.X_Mas_tree
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.Write("Введите желаемую высоту ёлочки: ");
             int n;
-            while (!Int32.TryParse(Console.ReadLine(), out n) || n < 1)
+            while (!int.TryParse(Console.ReadLine(), out n) || n < 1)
             {
                 Console.WriteLine("Введено некорректное значение, введите целое положительное число");
             }
 
-            for (int i = 1; i < n+1; i++)
+            for (int i = 1; i < n + 1; i++)
             {
                 CreateBlock(i, n);
             }
         }
+
         public static void CreateBlock(int highOfBlock, int countLevel)
         {
             for (int i = 0; i < highOfBlock; i++)
@@ -31,10 +32,12 @@ namespace Epam.Task1_4.X_Mas_tree
                     Console.Write(" ");
                 }
 
-                for (int j = 0; j < 2 * i + 1; j++)
+                int countStarsInRow = (2 * i) + 1;
+                for (int j = 0; j < countStarsInRow; j++)
                 {
                     Console.Write("*");
                 }
+
                 Console.WriteLine();
             }
         }

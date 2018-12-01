@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Epam.Task1_6.Font_adjustment
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var currentStyles = TextStyles.None;
             while (true)
@@ -21,7 +21,7 @@ namespace Epam.Task1_6.Font_adjustment
                 Console.WriteLine("\t {0}: {1}\n", 3, TextStyles.Underline);
                 
                 int pickedOption;
-                while (!Int32.TryParse(Console.ReadLine(), out pickedOption))
+                while (!int.TryParse(Console.ReadLine(), out pickedOption))
                 {
                     Console.WriteLine("Введено некорректное значение, введите целое положительное число от 1 до 3");
                 }
@@ -38,8 +38,10 @@ namespace Epam.Task1_6.Font_adjustment
                         {
                             currentStyles -= (int)TextStyles.Bold;
                         }
+
                         break;
                     }
+
                     case 2:
                     {
                         if ((currentStyles & TextStyles.Italic) == 0)
@@ -50,8 +52,10 @@ namespace Epam.Task1_6.Font_adjustment
                         {
                             currentStyles -= (int)TextStyles.Italic;
                         }
+
                         break;
                     }
+
                     case 3:
                     {
                         if ((currentStyles & TextStyles.Underline) == 0)
@@ -62,14 +66,14 @@ namespace Epam.Task1_6.Font_adjustment
                         {
                             currentStyles -= (int)TextStyles.Underline;
                         }
+
                         break;
                     }
+
                     default:
                         break;
-                }
-                
-            }
-            
+                }                
+            }            
         }
     }
 }

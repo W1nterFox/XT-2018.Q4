@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Epam.Task1_7.Array_processing
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Int32[] array = new Int32[10];
+            int[] array = new int[10];
             Random r = new Random();
 
             Console.WriteLine("Исходный массив: ");
@@ -33,15 +33,16 @@ namespace Epam.Task1_7.Array_processing
                     }
                 }
             }
+
             Console.WriteLine();
             Console.WriteLine("Отсортированный массив: ");
             foreach (int i in array)
             {
                 Console.Write(i + " ");
             }
-            Console.WriteLine();
-            Console.WriteLine("Минимум: {0}\nМаксимум: {1}\n", array[0], array[array.Length-1]);
 
+            Console.WriteLine();
+            Console.WriteLine("Минимум: {0}\nМаксимум: {1}\n", array[0], array[array.Length - 1]);
         }
     }
 }

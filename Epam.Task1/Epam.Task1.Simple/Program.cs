@@ -6,20 +6,31 @@ using System.Threading.Tasks;
 
 namespace Epam.Task1.Simple
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             for (int i = 1; i < 10; i++)
-                Console.WriteLine("{0} - {1}", i, IsSimpleNum(i));
-        }
-        static bool IsSimpleNum(int num)
-        {
-            if (num <= 0) throw new ArgumentException("Value of argument should be more than 0");
-            for (int i = 2; i <= num/2; i++)
             {
-                if (num % 2 == 0) return false;
+                Console.WriteLine("{0} - {1}", i, IsSimpleNum(i));
             }
+        }
+
+        private static bool IsSimpleNum(int num)
+        {
+            if (num <= 0)
+            {
+                throw new ArgumentException("Value of argument should be more than 0");
+            }
+
+            for (int i = 2; i <= num / 2; i++)
+            {
+                if (num % 2 == 0)
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
     }

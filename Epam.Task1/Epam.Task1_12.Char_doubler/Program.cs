@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Epam.Task1_12.Char_doubler
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Введите первую строку:");
             string str1 = Console.ReadLine();
@@ -29,9 +29,9 @@ namespace Epam.Task1_12.Char_doubler
                     sb.Append(ch);
                 }
             }
+
             str1 = sb.ToString();
             Console.WriteLine(str1);
-
         }
     }
 }

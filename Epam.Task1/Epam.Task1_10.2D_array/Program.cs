@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Epam.Task1_10._2D_array
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Int32[,] array = new Int32[3, 3];
+            int[,] array = new int[3, 3];
             Random r = new Random();
-            Int32 sum = 0;
+            int sum = 0;
             Console.WriteLine("Массив: ");
             for (int i = 0; i < array.GetLength(0); i++)
             {
@@ -25,8 +25,10 @@ namespace Epam.Task1_10._2D_array
                         sum += array[i, j];
                     }
                 }
+
                 Console.WriteLine();
             }
+
             Console.WriteLine("Сумма чисел на четных позициях: {0}", sum);
         }
     }

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Epam.Task1_2.Triangle
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.Write("Введите желаемую высоту трегуольника: ");
             int n;
-            while (!Int32.TryParse(Console.ReadLine(), out n) || n < 1)
+            while (!int.TryParse(Console.ReadLine(), out n) || n < 1)
             {
                 Console.WriteLine("Введено некорректное значение, введите целое положительное число");
             }
@@ -23,6 +23,7 @@ namespace Epam.Task1_2.Triangle
                 {
                     Console.Write("*");
                 }
+
                 Console.WriteLine();
             }
         }

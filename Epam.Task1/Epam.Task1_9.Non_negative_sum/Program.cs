@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Epam.Task1_9.Non_negative_sum
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Int32[] array = new Int32[10];
+            int[] array = new int[10];
             Random r = new Random();
 
             Console.WriteLine("Массив: ");
@@ -20,7 +20,7 @@ namespace Epam.Task1_9.Non_negative_sum
                 Console.Write(array[i] + " ");
             }
 
-            Int32 sum = array.Sum(x => {return x > 0 ? x : 0;});
+            int sum = array.Sum(x => { return x > 0 ? x : 0; });
             Console.WriteLine("\nСумма положительных элементов массива: {0}", sum);
         }
     }
