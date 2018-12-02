@@ -29,22 +29,10 @@ namespace Epam.Task2.Round
 
         public int Radius { get; private set; }
 
-        public double Length
-        {
-            get
-            {
-                return 2 * Math.PI * this.Radius;
-            }
-        }
+        public double Length => 2 * Math.PI * this.Radius;
 
-        public double Area
-        {
-            get
-            {
-                return Math.PI * this.Radius * this.Radius;
-            }
-        }
-
+        public double Area => Math.PI * this.Radius * this.Radius;
+        
         public void PrintInfo()
         {
             Console.WriteLine(

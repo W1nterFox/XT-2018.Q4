@@ -10,8 +10,8 @@ namespace Epam.Task2.MyString
     {
         public static void Main(string[] args)
         {
-            //Тут тестил методы. 
-            //В задании не написано, что нужно написать программу, которая демонстрировала бы использование класса MyString, поэтому тут немного
+            ////Тут тестил методы. 
+            ////В задании не написано, что нужно написать программу, которая демонстрировала бы использование класса MyString, поэтому тут немного
             MyString myString = new MyString(new char[] { 'H', 'e', 'l', 'l', 'o' });
             MyString myString1 = "Hello";
             MyString myString2 = "Hello";
@@ -21,7 +21,7 @@ namespace Epam.Task2.MyString
             Console.WriteLine(myString1.Insert("abc", 1));
             Console.WriteLine(myString1.Insert("abc", 0));
             Console.WriteLine(myString1.Insert("abcccccccccccccccccccccccc", 4));
-            Console.WriteLine(myString1.Insert("", 4));
+            Console.WriteLine(myString1.Insert(string.Empty, 4));
         }
     }
 }
