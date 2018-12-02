@@ -12,13 +12,21 @@ namespace Epam.Task2.Employee
         private string position = "No position";
         private int workExperience;
 
-        public Employee(string firstName, string lastName) : base(firstName, lastName) { }
+        public Employee(string firstName, string lastName) : base(firstName, lastName)
+        {
+        }
         
-        public Employee(string firstName, string lastName, string patronymic) : base(firstName, lastName, patronymic) { }
+        public Employee(string firstName, string lastName, string patronymic) : base(firstName, lastName, patronymic)
+        {
+        }
         
-        public Employee(string firstName, string lastName, DateTime birthday) : base(firstName, lastName, birthday) { }
+        public Employee(string firstName, string lastName, DateTime birthday) : base(firstName, lastName, birthday)
+        {
+        }
         
-        public Employee(string firstName, string lastName, string patronymic, DateTime birthday) : base(firstName, lastName, patronymic, birthday) { }
+        public Employee(string firstName, string lastName, string patronymic, DateTime birthday) : base(firstName, lastName, patronymic, birthday)
+        {
+        }
 
         internal string Position
         {
