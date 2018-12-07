@@ -9,7 +9,7 @@ namespace Epam.Task2.Employee
 {
     public class Employee : User.User
     {
-        private string position = "No position";
+        private string position = string.Empty;
         private int workExperience;
 
         public Employee(string firstName, string lastName) : base(firstName, lastName)
@@ -71,11 +71,16 @@ namespace Epam.Task2.Employee
         public override void PrintInfo()
         {
             base.PrintInfo();
-            Console.WriteLine(
-                "Position: {0}{1}WorkExperience: {2}",
-                this.Position,
-                Environment.NewLine,
-                this.WorkExperience);
+            if (this.Position != string.Empty)
+            {
+                Console.WriteLine("Position: {0}", this.Position);
+            }
+            else
+            {
+                Console.WriteLine("Position: No position");
+            }
+
+            Console.WriteLine("Work experience: {0}", this.WorkExperience);
         }
     }
 }

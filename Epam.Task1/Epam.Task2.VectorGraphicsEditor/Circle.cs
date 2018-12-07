@@ -40,5 +40,10 @@ namespace Epam.Task2.VectorGraphicsEditor
             Console.WriteLine("Central point: ({0},{1})", this.PointCenter.X, this.PointCenter.Y);
             Console.WriteLine("Radius: {0}", this.Radius);
         }
+
+        public override string ToString()
+        {
+            return "Circle";
+        }
     }
 }

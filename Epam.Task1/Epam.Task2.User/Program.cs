@@ -24,6 +24,7 @@ namespace Epam.Task2.User
                 foreach (var user in users)
                 {
                     user.PrintInfo();
+                    Console.WriteLine();
                 }
             }
             catch (ArgumentException e)

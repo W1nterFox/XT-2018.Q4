@@ -32,16 +32,13 @@ namespace Epam.Task2.Round
         public double Length => 2 * Math.PI * this.Radius;
 
         public double Area => Math.PI * this.Radius * this.Radius;
-        
+
         public void PrintInfo()
         {
-            Console.WriteLine(
-                "Coordinate X: {0}{1}Coordinate Y: {2}{1}Area of round: {3}{1}Length of round: {4}",
-                this.PointCenter.X, 
-                Environment.NewLine, 
-                this.PointCenter.Y, 
-                this.Area, 
-                this.Length);
+            Console.WriteLine("Central point: ({0},{1})", this.PointCenter.X, this.PointCenter.Y);
+            Console.WriteLine("Area: {0}", this.Area);
+            Console.WriteLine("Length: {0}", this.Length);
+            Console.WriteLine("Radius: {0}", this.Radius);
         }
     }
 }

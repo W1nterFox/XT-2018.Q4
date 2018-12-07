@@ -69,5 +69,10 @@ namespace Epam.Task2.VectorGraphicsEditor
             Console.WriteLine("Outer radius: {0}", this.OuterRadius);
             Console.WriteLine("Inner radius: {0}", this.InnerRadius);
         }
+
+        public override string ToString()
+        {
+            return "Ring";
+        }
     }
 }

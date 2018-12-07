@@ -32,5 +32,10 @@ namespace Epam.Task2.VectorGraphicsEditor
             Console.WriteLine("Bottom right corner: ({0},{1})", this.PointBottomRight.X, this.PointBottomRight.Y);
             Console.WriteLine("Area: {0}", this.Area);
         }
+
+        public override string ToString()
+        {
+            return "Rectangle";
+        }
     }
 }

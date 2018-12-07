@@ -11,5 +11,7 @@ namespace Epam.Task2.VectorGraphicsEditor
         public abstract void Draw();
 
         public abstract void PrintInfo();
+
+        public abstract override string ToString();
     }
 }

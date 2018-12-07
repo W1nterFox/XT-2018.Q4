@@ -29,5 +29,10 @@ namespace Epam.Task2.VectorGraphicsEditor
             Console.WriteLine("Point 1: ({0},{1})", this.Point1.X, this.Point1.Y);
             Console.WriteLine("Point 2: ({0},{1})", this.Point2.X, this.Point2.Y);
         }
+
+        public override string ToString()
+        {
+            return "Line";
+        }
     }
 }

@@ -32,19 +32,20 @@ namespace Epam.Task2.VectorGraphicsEditor
 
         public override void PrintInfo()
         {
-            Console.WriteLine(
-                "Central point: ({0},{1}){2}Area of round: {3}{2}Length of round: {4}{2}Radius: {5}",
-                this.PointCenter.X,
-                this.PointCenter.Y,
-                Environment.NewLine,
-                this.Area,
-                this.Length,
-                this.Radius);
+            Console.WriteLine("Central point: ({0},{1})", this.PointCenter.X, this.PointCenter.Y);
+            Console.WriteLine("Area: {0}", this.Area);
+            Console.WriteLine("Length: {0}", this.Length);
+            Console.WriteLine("Radius: {0}", this.Radius);
         }
 
         public override void Draw()
         {
             Console.WriteLine("Drawn the round");
+        }
+
+        public override string ToString()
+        {
+            return "Round";
         }
     }
 }

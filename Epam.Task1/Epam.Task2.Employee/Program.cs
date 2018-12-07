@@ -12,21 +12,21 @@ namespace Epam.Task2.Employee
         {
             try
             {
-                Employee emp1 = new Employee("Иван", "Иванов");
-                emp1.Position = "Директор";
+                Employee emp1 = new Employee("Ivan", "Ivanov");
+                emp1.Position = "Director";
                 emp1.WorkExperience = 10;
-                Employee emp2 = new Employee("Сидор", "Сидоров", new DateTime(1996, 4, 23));
-                emp2.Position = "ЗамДир";
+                Employee emp2 = new Employee("Sidor", "Sidorov", new DateTime(1996, 4, 23));
+                emp2.Position = "Deputy Director";
                 emp2.WorkExperience = 5;
-                Employee emp3 = new Employee("Борис", "Борисов", "Борисович", new DateTime(1990, 10, 10));
-                emp3.Position = "Приносит кофе";
+                Employee emp3 = new Employee("Boris", "Borisov", "Borisovich", new DateTime(1990, 10, 10));
+                emp3.Position = "coffee maker";
                 emp3.WorkExperience = 1;
-                Employee emp4 = new Employee("Петр", "Петров", "Петрович");
-                emp4.Position = "ЗавСкладо#м";
+                Employee emp4 = new Employee("Petr", "Petrov", "Petrovich");
+                emp4.Position = "Warehouse Manager";
                 emp4.WorkExperience = 1;
-                Employee emp5 = new Employee("Сидор", "Сидоров", new DateTime(1996, 4, 23));
-                Employee emp6 = new Employee("Иван", "Иванов");
-                Employee emp7 = new Employee("Борис", "Борисов", "Борисович", new DateTime(1990, 10, 10));
+                Employee emp5 = new Employee("Sidor", "Sidorov", new DateTime(1996, 4, 23));
+                Employee emp6 = new Employee("Ivan", "Ivanov");
+                Employee emp7 = new Employee("Boris", "Borisov", "Borisovich", new DateTime(1990, 10, 10));
                 var employees = new List<Employee>
                 {
                     emp1, emp2, emp3, emp4, emp5, emp6, emp7
