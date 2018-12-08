@@ -68,7 +68,7 @@ namespace Epam.Task3.Lost
                 Console.WriteLine("Next round.");
             }
 
-            Console.WriteLine("Lost one Person! His name is '{0}'", roundOfPerson.First.Value.Name);
+            Console.WriteLine("Last Person! His name is '{0}'", roundOfPerson.First.Value.Name);
         }
     }
 }
