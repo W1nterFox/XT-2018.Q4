@@ -184,14 +184,7 @@ namespace Epam.Task4.ToIntOrNotToInt
         private static bool CheckIsCorrectExponentionalNumber(char[] chars)
         {
             string pattern = "^[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?$";
-            if (Regex.IsMatch(new string(chars), pattern))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return Regex.IsMatch(new string(chars), pattern);
         }
     }
 }

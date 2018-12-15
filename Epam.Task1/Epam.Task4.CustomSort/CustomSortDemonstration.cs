@@ -8,31 +8,7 @@ namespace Epam.Task4.CustomSort
 {
     public class CustomSortDemonstration
     {
-        public void CustomSortDemonstrate()
-        {
-            Car[] cars =
-            {
-                new Car("Renault", 2009),
-                new Car("Nissan", 2012),
-                new Car("Lada", 2003),
-                new Car("Ford Galaxie", 1968)
-            };
-
-            Console.WriteLine("Initial array of cars: ");
-            this.PrintCarsArray(cars);
-            Console.WriteLine();
-
-            this.CustomSort<Car>(cars, this.CompareByCarBrand);
-            Console.WriteLine("Array of cars after sorting by its brand: ");
-            this.PrintCarsArray(cars);
-            Console.WriteLine();
-
-            this.CustomSort<Car>(cars, this.CompareByYearOfCreation);
-            Console.WriteLine("Array of cars after sorting by its year of creation: ");
-            this.PrintCarsArray(cars);
-        }
-        
-        public int CompareByYearOfCreation(Car first, Car second)
+        public static int CompareByYearOfCreation(Car first, Car second)
         {
             if (ReferenceEquals(first, second))
             {
@@ -65,7 +41,7 @@ namespace Epam.Task4.CustomSort
 
         //// Коммантарий для Виктора или Михаила: в интернете увидел такой порядок 
         //// сравнения объектов. Если что-то забыл, то напишите что именно, пожалуйста
-        public int CompareByCarBrand(Car first, Car second)
+        public static int CompareByCarBrand(Car first, Car second)
         {
             if (ReferenceEquals(first, second))
             {
@@ -120,12 +96,36 @@ namespace Epam.Task4.CustomSort
             }
         }
 
-        private void PrintCarsArray(Car[] array)
+        public static void PrintCarsArray(Car[] array)
         {
             foreach (var car in array)
             {
                 Console.WriteLine(car);
             }
+        }
+
+        public void CustomSortDemonstrate()
+        {
+            Car[] cars =
+            {
+                new Car("Renault", 2009),
+                new Car("Nissan", 2012),
+                new Car("Lada", 2003),
+                new Car("Ford Galaxie", 1968)
+            };
+
+            Console.WriteLine("Initial array of cars: ");
+            PrintCarsArray(cars);
+            Console.WriteLine();
+
+            this.CustomSort<Car>(cars, CompareByCarBrand);
+            Console.WriteLine("Array of cars after sorting by its brand: ");
+            PrintCarsArray(cars);
+            Console.WriteLine();
+
+            this.CustomSort<Car>(cars, CompareByYearOfCreation);
+            Console.WriteLine("Array of cars after sorting by its year of creation: ");
+            PrintCarsArray(cars);
         }
 
         private void CustomSort<T>(T[] array, Func<T, T, int> methodCompare)
