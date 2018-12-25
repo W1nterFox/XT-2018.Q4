@@ -23,8 +23,8 @@ namespace Epam.Task5.BackupSystem
             {
                 case "1":
                 {
-                    //Console.WriteLine("Input path to directory for watching:");
-                    //Constants.SourceDirName = PickDirectory();
+                    ////Console.WriteLine("Input path to directory for watching:");
+                    ////Constants.SourceDirName = PickDirectory();
 
                     Console.WriteLine();
                     Console.WriteLine("Watching...");
@@ -37,8 +37,8 @@ namespace Epam.Task5.BackupSystem
                 {
                     try
                     {
-                        //Console.WriteLine("Input path to watching directory:");
-                        //Constants.SourceDirName = PickDirectory();
+                        ////Console.WriteLine("Input path to watching directory:");
+                        ////Constants.SourceDirName = PickDirectory();
 
                         DateTime dateTime = ReadDateFromConsole();
 
@@ -87,6 +87,7 @@ namespace Epam.Task5.BackupSystem
                 Directory.CreateDirectory(Constants.BufDirName);
             }
         }
+
         public static string PickDirectory()
         {
             string path = Console.ReadLine();
@@ -104,7 +105,6 @@ namespace Epam.Task5.BackupSystem
             }
 
             return path;
-            
         }
 
         public static DateTime ReadDateFromConsole()

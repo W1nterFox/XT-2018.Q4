@@ -34,6 +34,13 @@ namespace Epam.Task5.BackupSystem
                 continue;
             }
         }
+        
+        public static string GetTempPath(string str, DateTime dt)
+        {
+            string line = str.Replace(Constants.SourceDirName, Constants.BackupDirName);
+
+            return ToPathWithDates(line, dt);
+        }
 
         private static void DirectoryWatcher()
         {
@@ -63,150 +70,96 @@ namespace Epam.Task5.BackupSystem
 
         private static void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            while (true)
+            if (sender == fileWatcher)
             {
-                try
-                {
-                    if (sender == fileWatcher)
-                    {
-                        LogingChanges.LogEventInfo(sender, e);
-                    }
-                    else if (sender == dirWatcher)
-                    {
-                        LogingChanges.LogEventInfo(sender, e);
-                    }
-
-                    return;
-                }
-
-                catch
-                {
-                    SleepEvent();
-                }
+                LogingChanges.LogEventInfo(sender, e);
+            }
+            else if (sender == dirWatcher)
+            {
+                LogingChanges.LogEventInfo(sender, e);
             }
         }
-
-        private static void SleepEvent()
-        {
-            Thread.Sleep(TimeSpan.FromMilliseconds(1));
-        }
-
+        
         private static void OnCreated(object sender, FileSystemEventArgs e)
         {
-            while (true)
+            var isDirectory = ElementIsDirectory(e);
+            LogingChanges.LogEventInfo(sender, e);
+            string temppath = GetTempPath(e.FullPath, DateTime.Now);
+            if (sender == fileWatcher && !isDirectory)
             {
-                try
+                if (!File.Exists(temppath))
                 {
-                    var isDirectory = ElementIsDirectory(e);
-                    LogingChanges.LogEventInfo(sender, e);
-                    string temppath = GetTempPath(e.FullPath, DateTime.Now);
-                    if (sender == fileWatcher && !isDirectory)
+                    if (!Directory.Exists(temppath))
                     {
-                        if (!File.Exists(temppath))
-                        {
-                            if (!Directory.Exists(temppath))
-                            {
-                                CreateDirectoryForFile(temppath);
-                            }
-                            File.Create(temppath).Close();
-                        }
-                    }
-                    else if (sender == dirWatcher)
-                    {
-                        Directory.CreateDirectory(temppath);
+                        CreateDirectoryForFile(temppath);
                     }
 
-                    return;
+                    File.Create(temppath).Close();
                 }
-
-                catch
-                {
-                    SleepEvent();
-                }
+            }
+            else if (sender == dirWatcher)
+            {
+                Directory.CreateDirectory(temppath);
             }
         }
 
         private static void CreateDirectoryForFile(string temppath)
         {
-            string[] strArr = temppath.Split('\\');
-            string[] strArr2 = new string[strArr.Length - 1];
-            Array.Copy(strArr, 0, strArr2, 0, strArr.Length - 1);
-            Directory.CreateDirectory(string.Join("\\", strArr2));
+            try
+            {
+                string[] strArr = temppath.Split('\\');
+                string[] strArr2 = new string[strArr.Length - 1];
+                Array.Copy(strArr, 0, strArr2, 0, strArr.Length - 1);
+                Directory.CreateDirectory(string.Join("\\", strArr2));
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.InnerException);
+            }
         }
 
         private static void OnChanged(object sender, FileSystemEventArgs e)
         {
-            while (true)
+            var isDirectory = ElementIsDirectory(e);
+
+            if (sender == fileWatcher && !isDirectory)
             {
-                try
+                LogingChanges.LogEventInfo(sender, e);
+
+                string temppath = GetTempPath(e.FullPath, DateTime.Now);
+                string text = GetDataFromFile(e.FullPath);
+                if (!File.Exists(temppath))
                 {
-                    var isDirectory = ElementIsDirectory(e);
-
-                    if (sender == fileWatcher && !isDirectory)
+                    if (!Directory.Exists(temppath))
                     {
-                        LogingChanges.LogEventInfo(sender, e);
-
-                        string temppath = GetTempPath(e.FullPath, DateTime.Now);
-                        string text = GetDataFromFile(e.FullPath);
-                        if (!File.Exists(temppath))
-                        {
-                            if (!Directory.Exists(temppath))
-                            {
-                                CreateDirectoryForFile(temppath);
-                            }
-
-                            File.Copy(e.FullPath, temppath);
-                        }
-
-                        WriteDataToFile(temppath, text);
+                        CreateDirectoryForFile(temppath);
                     }
 
-                    return;
+                    File.Copy(e.FullPath, temppath);
                 }
 
-                catch
-                {
-                    SleepEvent();
-                }
+                WriteDataToFile(temppath, text);
             }
         }
 
         private static void OnRenamed(object sender, RenamedEventArgs e)
         {
-            while (true)
+            var isDirectory = ElementIsDirectory(e);
+
+            if (sender == fileWatcher && !isDirectory)
             {
-                try
-                {
-                    var isDirectory = ElementIsDirectory(e);
-
-                    if (sender == fileWatcher && !isDirectory)
-                    {
-                        LogingChanges.LogOnRenamedInfo(sender, e);
-                    }
-                    else if (sender == dirWatcher)
-                    {
-                        string temppath = GetTempPath(e.FullPath, DateTime.Now);
-                        Directory.CreateDirectory(temppath);
-                        LogingChanges.LogOnRenamedInfo(sender, e);
-                    }
-
-                    return;
-                }
-
-                catch
-                {
-                    SleepEvent();
-                }
+                LogingChanges.LogOnRenamedInfo(sender, e);
+            }
+            else if (sender == dirWatcher)
+            {
+                string temppath = GetTempPath(e.FullPath, DateTime.Now);
+                Directory.CreateDirectory(temppath);
+                LogingChanges.LogOnRenamedInfo(sender, e);
             }
         }
-
-        public static string GetTempPath(string str, DateTime dt)
-        {
-            string line = str.Replace(Constants.SourceDirName, Constants.BackupDirName);
-
-            return ToPathWithDates(line, dt);
-        }
-
+        
         private static string ToPathWithDates(string str, DateTime dt)
         {
             string date = Constants.DateFormat(dt);

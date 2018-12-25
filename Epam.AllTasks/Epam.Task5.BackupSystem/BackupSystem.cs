@@ -51,10 +51,12 @@ namespace Epam.Task5.BackupSystem
                                 {
                                     File.Delete(item.PathFile);
                                 }
+
                                 string temppath = FileChanges.GetTempPath(item.PathFile, item.TimeOfChanges);
                                 File.Copy(temppath, item.PathFile);
                                 break;
                             }
+
                         case "Created":
                             {
                                 if (item.TypeOfObject.Equals("fileWatcher"))
@@ -68,8 +70,12 @@ namespace Epam.Task5.BackupSystem
                                     Directory.CreateDirectory(item.PathFile);
                                     break;
                                 }
-                                else throw new ArgumentException();
+                                else
+                                {
+                                    throw new ArgumentException();
+                                } 
                             }
+
                         case "Deleted":
                             {
                                 if (item.TypeOfObject.Equals("fileWatcher"))
@@ -82,8 +88,12 @@ namespace Epam.Task5.BackupSystem
                                     Directory.Delete(item.PathFile, true);
                                     break;
                                 }
-                                else throw new ArgumentException();
+                                else
+                                {
+                                    throw new ArgumentException();
+                                }
                             }
+
                         case "Renamed":
                             {
                                 if (item.TypeOfObject.Equals("fileWatcher"))
@@ -103,7 +113,10 @@ namespace Epam.Task5.BackupSystem
                                     ClearTrackingFolder(Constants.BufDirName);
                                     break;
                                 }
-                                else throw new ArgumentException();
+                                else
+                                {
+                                    throw new ArgumentException();
+                                }
                             }
                     }
                 }
@@ -142,7 +155,6 @@ namespace Epam.Task5.BackupSystem
             
             if (copySubDirs)
             {
-
                 foreach (DirectoryInfo subdir in dirs)
                 {
                     string temppath = Path.Combine(destDirName, subdir.Name);
@@ -173,15 +185,6 @@ namespace Epam.Task5.BackupSystem
             }
         }
 
-        //private static string GetTempPath(StructureEventElement item)
-        //{
-        //    string line = item.PathFile;
-            
-        //    line = line.Replace(Constants.SourceDirName, Constants.BackupDirName).Replace(Path.GetFileName(item.PathFile), "");
-        //    string temppath = Path.Combine(line, $"${StructureEventElement.DateFromLogToString(item.TimeOfChanges)}${Path.GetFileName(item.PathFile)}");
-        //    return temppath;
-        //}
-
         private static void ClearTrackingFolder(string trackingFolderPath)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(trackingFolderPath);
@@ -190,6 +193,7 @@ namespace Epam.Task5.BackupSystem
             {
                 file.Delete();
             }
+
             DirectoryInfo[] dirInfos = dirInfo.GetDirectories();
             foreach (DirectoryInfo subdir in dirInfos)
             {
