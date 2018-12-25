@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,16 +17,6 @@ namespace Epam.Task5.BackupSystem
         
         public static void InitWatchers()
         {
-            if (!Directory.Exists(Constants.BackupDirName))
-            {
-                Directory.CreateDirectory(Constants.BackupDirName);
-            }
-
-            if (!Directory.Exists(Constants.SourceDirName))
-            {
-                Directory.CreateDirectory(Constants.SourceDirName);
-            }
-
             dirWatcher = new FileSystemWatcher(Constants.SourceDirName);
 
             fileWatcher = new FileSystemWatcher(Constants.SourceDirName, "*.txt");
@@ -107,23 +98,22 @@ namespace Epam.Task5.BackupSystem
                 try
                 {
                     var isDirectory = ElementIsDirectory(e);
-
+                    LogingChanges.LogEventInfo(sender, e);
+                    string temppath = GetTempPath(e.FullPath, DateTime.Now);
                     if (sender == fileWatcher && !isDirectory)
                     {
-                        LogingChanges.LogEventInfo(sender, e);
-                        string temppath = GetTempPath(e);
-
                         if (!File.Exists(temppath))
                         {
+                            if (!Directory.Exists(temppath))
+                            {
+                                CreateDirectoryForFile(temppath);
+                            }
                             File.Create(temppath).Close();
                         }
                     }
                     else if (sender == dirWatcher)
                     {
-                        string temppath = GetTempPath(e);
                         Directory.CreateDirectory(temppath);
-
-                        LogingChanges.LogEventInfo(sender, e);
                     }
 
                     return;
@@ -134,6 +124,14 @@ namespace Epam.Task5.BackupSystem
                     SleepEvent();
                 }
             }
+        }
+
+        private static void CreateDirectoryForFile(string temppath)
+        {
+            string[] strArr = temppath.Split('\\');
+            string[] strArr2 = new string[strArr.Length - 1];
+            Array.Copy(strArr, 0, strArr2, 0, strArr.Length - 1);
+            Directory.CreateDirectory(string.Join("\\", strArr2));
         }
 
         private static void OnChanged(object sender, FileSystemEventArgs e)
@@ -148,10 +146,15 @@ namespace Epam.Task5.BackupSystem
                     {
                         LogingChanges.LogEventInfo(sender, e);
 
-                        string temppath = GetTempPath(e);
+                        string temppath = GetTempPath(e.FullPath, DateTime.Now);
                         string text = GetDataFromFile(e.FullPath);
                         if (!File.Exists(temppath))
                         {
+                            if (!Directory.Exists(temppath))
+                            {
+                                CreateDirectoryForFile(temppath);
+                            }
+
                             File.Copy(e.FullPath, temppath);
                         }
 
@@ -182,7 +185,7 @@ namespace Epam.Task5.BackupSystem
                     }
                     else if (sender == dirWatcher)
                     {
-                        string temppath = GetTempPath(e);
+                        string temppath = GetTempPath(e.FullPath, DateTime.Now);
                         Directory.CreateDirectory(temppath);
                         LogingChanges.LogOnRenamedInfo(sender, e);
                     }
@@ -197,12 +200,23 @@ namespace Epam.Task5.BackupSystem
             }
         }
 
-        private static string GetTempPath(FileSystemEventArgs e)
+        public static string GetTempPath(string str, DateTime dt)
         {
-            string line = e.FullPath;
-            line = line.Replace(Constants.SourceDirName, Constants.BackupDirName).Replace(Path.GetFileName(e.Name), "");
-            string temppath = Path.Combine(line, $"${Constants.DateFormat(DateTime.Now)}${Path.GetFileName(e.Name)}");
-            return temppath;
+            string line = str.Replace(Constants.SourceDirName, Constants.BackupDirName);
+
+            return ToPathWithDates(line, dt);
+        }
+
+        private static string ToPathWithDates(string str, DateTime dt)
+        {
+            string date = Constants.DateFormat(dt);
+            string[] strArr = str.Split('\\');
+            for (int i = 2; i < strArr.Length; i++)
+            {
+                strArr[i] = $"${date}${strArr[i]}";
+            }
+
+            return string.Join("\\", strArr);
         }
 
         private static bool ElementIsDirectory(FileSystemEventArgs e)

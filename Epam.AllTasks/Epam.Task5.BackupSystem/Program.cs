@@ -13,6 +13,7 @@ namespace Epam.Task5.BackupSystem
     {
         public static void Main(string[] args)
         {
+            InitDirs();
             Console.WriteLine("1 - Watch the folder");
             Console.WriteLine("2 - Backup folder");
             Console.WriteLine();
@@ -42,6 +43,10 @@ namespace Epam.Task5.BackupSystem
                         DateTime dateTime = ReadDateFromConsole();
 
                         BackupSystem.Start(dateTime, Constants.SourceDirName, Constants.BackupDirName);
+
+                        Console.WriteLine();
+                        Console.WriteLine("Success!");
+                        Console.ReadKey();
                         break;
                     }
                     catch (Exception exp)
@@ -65,6 +70,23 @@ namespace Epam.Task5.BackupSystem
             }
         }
 
+        public static void InitDirs()
+        {
+            if (!Directory.Exists(Constants.BackupDirName))
+            {
+                Directory.CreateDirectory(Constants.BackupDirName);
+            }
+
+            if (!Directory.Exists(Constants.SourceDirName))
+            {
+                Directory.CreateDirectory(Constants.SourceDirName);
+            }
+
+            if (!Directory.Exists(Constants.BufDirName))
+            {
+                Directory.CreateDirectory(Constants.BufDirName);
+            }
+        }
         public static string PickDirectory()
         {
             string path = Console.ReadLine();
@@ -119,9 +141,6 @@ namespace Epam.Task5.BackupSystem
                 Console.WriteLine(e.InnerException);
                 throw;
             }
-            
-
-            
         }
     }
 }

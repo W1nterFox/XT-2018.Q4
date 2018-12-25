@@ -51,7 +51,7 @@ namespace Epam.Task5.BackupSystem
                                 {
                                     File.Delete(item.PathFile);
                                 }
-                                string temppath = GetTempPath(item);
+                                string temppath = FileChanges.GetTempPath(item.PathFile, item.TimeOfChanges);
                                 File.Copy(temppath, item.PathFile);
                                 break;
                             }
@@ -59,7 +59,7 @@ namespace Epam.Task5.BackupSystem
                             {
                                 if (item.TypeOfObject.Equals("fileWatcher"))
                                 {
-                                    string temppath = GetTempPath(item);
+                                    string temppath = FileChanges.GetTempPath(item.PathFile, item.TimeOfChanges);
                                     File.Copy(temppath, item.PathFile);
                                     break;
                                 }
@@ -96,8 +96,11 @@ namespace Epam.Task5.BackupSystem
                                 }
                                 else if (item.TypeOfObject.Equals("dirWatcher"))
                                 {
+                                    DirectoryCopy(item.OldPathToFile, Constants.BufDirName, true);
                                     Directory.Delete(item.OldPathToFile, true);
                                     Directory.CreateDirectory(item.PathFile);
+                                    DirectoryCopy(Constants.BufDirName, item.PathFile, true);
+                                    ClearTrackingFolder(Constants.BufDirName);
                                     break;
                                 }
                                 else throw new ArgumentException();
@@ -108,6 +111,44 @@ namespace Epam.Task5.BackupSystem
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+            }
+            
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+            
+            FileInfo[] files = dir.GetFiles();
+
+            foreach (FileInfo file in files)
+            {
+                string temppath = Path.Combine(destDirName, file.Name);
+                
+                file.CopyTo(temppath, false);
+            }
+            
+            if (copySubDirs)
+            {
+
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
             }
         }
 
@@ -132,14 +173,14 @@ namespace Epam.Task5.BackupSystem
             }
         }
 
-        private static string GetTempPath(StructureEventElement item)
-        {
-            string line = item.PathFile;
+        //private static string GetTempPath(StructureEventElement item)
+        //{
+        //    string line = item.PathFile;
             
-            line = line.Replace(Constants.SourceDirName, Constants.BackupDirName).Replace(Path.GetFileName(item.PathFile), "");
-            string temppath = Path.Combine(line, $"${StructureEventElement.DateFromLogToString(item.TimeOfChanges)}${Path.GetFileName(item.PathFile)}");
-            return temppath;
-        }
+        //    line = line.Replace(Constants.SourceDirName, Constants.BackupDirName).Replace(Path.GetFileName(item.PathFile), "");
+        //    string temppath = Path.Combine(line, $"${StructureEventElement.DateFromLogToString(item.TimeOfChanges)}${Path.GetFileName(item.PathFile)}");
+        //    return temppath;
+        //}
 
         private static void ClearTrackingFolder(string trackingFolderPath)
         {

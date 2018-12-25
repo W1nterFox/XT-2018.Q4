@@ -11,6 +11,7 @@ namespace Epam.Task5.BackupSystem
         public static string LogPath { get; } = @".\log.txt";
         public static string SourceDirName { get; set; } = @".\ForWatching";
         public static string BackupDirName { get; } = @".\Backups";
+        public static string BufDirName { get; } = @".\Buf";
         public static string DateTimeFormat { get; } = "yyyy.MM.dd HH.mm.ss";
 
         public static string DateFormat(DateTime item)
