@@ -44,8 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackupSystem.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="FileChanges.cs" />
+    <Compile Include="LogingChanges.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StructureEventElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

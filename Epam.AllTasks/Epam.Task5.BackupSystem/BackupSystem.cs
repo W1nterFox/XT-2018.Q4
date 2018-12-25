@@ -10,94 +10,150 @@ namespace Epam.Task5.BackupSystem
 {
     public class BackupSystem
     {
-        private readonly FileSystemWatcher fileSystemWatcher = new FileSystemWatcher();
-        private string path = AppDomain.CurrentDomain.BaseDirectory + @"\ForWatching\";
-        private string pathDir = @"D:\ForWatching\";
-        private string pathDirBackups = @"D:\Backups\";
-
-        public void InitMonitoring()
+        public static void Start(DateTime dateAndTime, string destinationDirName, string sourceDirName)
         {
-            ////Тут нужно будет сделать выбор папки для слежения пользователем
-            fileSystemWatcher.Path = pathDir;
-            fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            fileSystemWatcher.Filter = "*.txt";
-            fileSystemWatcher.IncludeSubdirectories = true;
-            fileSystemWatcher.Created += FileSystemWatcher_Created;
-            fileSystemWatcher.Renamed += FileSystemWatcher_Renamed;
-            fileSystemWatcher.Changed += FileSystemWatcher_Changed;
-            fileSystemWatcher.Deleted += FileSystemWatcher_Deleted;
-        }
-
-        public void StartMonitoring()
-        {
-            fileSystemWatcher.EnableRaisingEvents = true;
-        }
-
-        public void StopMonitoring()
-        {
-            fileSystemWatcher.EnableRaisingEvents = false;
-        }
-
-        private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
-        {
-            this.SaveChangedDirectory();
-        }
-
-        private void FileSystemWatcher_Renamed(object sender, FileSystemEventArgs e)
-        {
-            this.SaveChangedDirectory();
-        }
-
-        private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            this.SaveChangedDirectory();
-        }
-
-        private void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            this.SaveChangedDirectory();
-        }
-
-        private void SaveChangedDirectory()
-        {
-            string targetDirName = this.GenerateDirectoryName();
-            foreach (var file in Directory.GetFiles(pathDir))
+            ClearTrackingFolder(destinationDirName);
+            List<StructureEventElement> logItems = new List<StructureEventElement>();
+            using (StreamReader logFile = new StreamReader(Constants.LogPath))
             {
-                string fileName = Path.GetFileName(file);
-                if (fileName.EndsWith(".txt"))
-                {  
-                    File.Delete(Path.Combine(targetDirName, fileName));
-                }
-            }
-
-            Directory.CreateDirectory(targetDirName);
-            
-            foreach (var file in Directory.GetFiles(pathDir))
-            {
-                string fileName = Path.GetFileName(file);
-                if (fileName.EndsWith(".txt"))
+                string line;
+                while ((line = logFile.ReadLine()) != null)
                 {
                     try
                     {
-                        File.Copy(file, Path.Combine(targetDirName, fileName), true);
-                    }
-                    catch (Exception)
-                    {
+                        var logitem = StructureEventElement.ParseLog(line);
 
+                        if (logitem.TimeOfChanges > dateAndTime)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            logItems.Add(logitem);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
                     }
                 }
-            }  
+            }
+
+            try
+            {
+                foreach (var item in logItems)
+                {
+                    switch (item.TypeOfChanges)
+                    {
+                        case "Changed":
+                            {
+                                if (File.Exists(item.PathFile))
+                                {
+                                    File.Delete(item.PathFile);
+                                }
+                                string temppath = GetTempPath(item);
+                                File.Copy(temppath, item.PathFile);
+                                break;
+                            }
+                        case "Created":
+                            {
+                                if (item.TypeOfObject.Equals("fileWatcher"))
+                                {
+                                    string temppath = GetTempPath(item);
+                                    File.Copy(temppath, item.PathFile);
+                                    break;
+                                }
+                                else if (item.TypeOfObject.Equals("dirWatcher"))
+                                {
+                                    Directory.CreateDirectory(item.PathFile);
+                                    break;
+                                }
+                                else throw new ArgumentException();
+                            }
+                        case "Deleted":
+                            {
+                                if (item.TypeOfObject.Equals("fileWatcher"))
+                                {
+                                    File.Delete(item.PathFile);
+                                    break;
+                                }
+                                else if (item.TypeOfObject.Equals("dirWatcher"))
+                                {
+                                    Directory.Delete(item.PathFile, true);
+                                    break;
+                                }
+                                else throw new ArgumentException();
+                            }
+                        case "Renamed":
+                            {
+                                if (item.TypeOfObject.Equals("fileWatcher"))
+                                {
+                                    string text = GetDataFromFile(item.OldPathToFile);
+                                    File.Delete(item.OldPathToFile);
+                                    File.Create(item.PathFile).Close();
+                                    WriteDataToFile(item.PathFile, text);
+                                    break;
+                                }
+                                else if (item.TypeOfObject.Equals("dirWatcher"))
+                                {
+                                    Directory.Delete(item.OldPathToFile, true);
+                                    Directory.CreateDirectory(item.PathFile);
+                                    break;
+                                }
+                                else throw new ArgumentException();
+                            }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
-        private string GenerateDirectoryName()
+        private static string GetDataFromFile(string path)
         {
-            string currentTimeWithoutMinutes = DateTime.Now.ToString("yyyy-MM-dd HH.");
-            string currentMinutes = DateTime.Now.ToString("mm");
-            int currentMinutesInt = int.Parse(currentMinutes);
-            int minutesRoundedBy5 = currentMinutesInt / 5 * 5;
+            string text;
+            var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
+            {
+                text = streamReader.ReadToEnd();
+            }
 
-            string resultPath = currentTimeWithoutMinutes + minutesRoundedBy5;
-            return Path.Combine(pathDirBackups, resultPath);
+            return text;
+        }
+
+        private static void WriteDataToFile(string path, string data)
+        {
+            using (FileStream fs = File.Create(path))
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes(data);
+                fs.Write(info, 0, info.Length);
+            }
+        }
+
+        private static string GetTempPath(StructureEventElement item)
+        {
+            string line = item.PathFile;
+            
+            line = line.Replace(Constants.SourceDirName, Constants.BackupDirName).Replace(Path.GetFileName(item.PathFile), "");
+            string temppath = Path.Combine(line, $"${StructureEventElement.DateFromLogToString(item.TimeOfChanges)}${Path.GetFileName(item.PathFile)}");
+            return temppath;
+        }
+
+        private static void ClearTrackingFolder(string trackingFolderPath)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(trackingFolderPath);
+
+            foreach (FileInfo file in dirInfo.GetFiles())
+            {
+                file.Delete();
+            }
+            DirectoryInfo[] dirInfos = dirInfo.GetDirectories();
+            foreach (DirectoryInfo subdir in dirInfos)
+            {
+                Directory.Delete(subdir.FullName, true);
+            }
         }
     }
 }
