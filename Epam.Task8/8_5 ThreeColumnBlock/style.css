@@ -1,0 +1,66 @@
+body,html{
+	padding: 0;
+	margin:0;
+}
+
+body{
+	background: #4a6073;
+}
+
+.main-wrapp{
+width: 906px;/**/
+background: #fff;
+overflow: hidden;
+border: none;
+box-shadow: 0 0 25px #000;
+border-radius: 7px;
+margin:30px auto;
+}
+
+/*скрытие границы первого блока*/
+.main-wrapp div:first-child{
+	
+}
+
+.item{
+	width: 300px;
+	border-left: 1px solid #d6dbd6;
+	float: left;
+	margin: 10px auto;
+	text-align: center;
+}
+
+.item div{
+	margin: 0 auto;
+}
+	
+.item-title{
+	color:#f56332;
+	font-weight: bold;
+}
+
+.item a{
+	padding:3px;
+	margin:0 auto;
+	text-decoration: none;
+	width:80px;
+	height: 15px;
+	background: #f76131;
+	color:#fff;
+	border-radius:3px;
+	padding: 3px;	
+}
+
+.icon{
+	width: 84px;
+	height: 56px;
+	background: url(picture.jpg);
+}
+
+.cloud{
+background-position: 0 111px;
+}
+
+.server{
+background-position: 0 56px;
+}

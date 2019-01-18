@@ -1,0 +1,38 @@
+.login-form{
+background-color: #0590d1;
+border:solid 2px #0075b5;
+width: 450px;
+height: 280px;
+color:#fff;
+font-size: 20px;
+}
+.form-edit{
+	display: inline-block;
+	margin:15px 0px 0px 20px;
+}
+
+hr{
+	border:none;
+	background-color: #fff;
+	height: 1px;
+}
+
+input{
+		height:25px;
+}
+
+input#email{
+	width:365px;
+}
+
+.btn-send{
+	color:#000;
+	background-color: #ffdf7e;
+	border: none;
+	width: 95px;
+	height: 30px;
+}
+
+.form-main-title{
+    font-size: 25px;
+}

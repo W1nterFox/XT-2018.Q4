@@ -1,0 +1,22 @@
+body {
+    padding: 15px;
+}
+
+.block {
+    font-family: "Times New Roman", serif;
+}
+
+.block > header {
+    background: #008b65;
+    color: white;
+    font-size: 14pt;
+    padding: 12px;
+}
+
+.block > section {
+    background: #dfe7e1;
+    margin-left: 30px;
+    padding: 5px;
+    position: relative;
+    top: -10px;
+}
