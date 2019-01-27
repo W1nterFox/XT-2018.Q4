@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <title>9.2 MathCalculator</title>
+        <script type="text/javascript" src="script.js"></script>
+    </head>
+    <body>
+        <div>
+            <h1>Task 9.2. MathCalculator</h1>
+            <p>Написать функцию для подсчёта результата выражения. На вход приходит строка с
+арифметическим выражением. Внутри выражения записываются вещественные числа (в качестве
+разделителя целой и дробной части используется точка), разделённые математическими
+операторами (+ − * /). Между числом и оператором может стоять пробел. В конце строки стоит
+знак «равно».</p>
+            Пример:
+            <p>
+                3.5+4*10-5.3/5 =<br/>
+            </p>
+            Результат выражения вычисляется последовательно. Приоритет операций не учитывается.
+Результат выводить с точностью до 2 знаков после запятой.
+            <hr/>
+            
+            Input expression:
+            <textarea id="textArea">3.5+4*10-5.3/5=</textarea>
+            <input type="submit" value="Submit" onclick="calculateExpression()"/>
+            <br/>
+            <br/>
+            Result expression:
+            <p id="resultOfExpression"></p>
+            
+        </div>
+    </body>
+</html>

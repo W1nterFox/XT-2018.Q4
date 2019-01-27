@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <title>9.3 ButterflyControlr</title>
+        <script type="text/javascript" src="script.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    </head>
+    <body>
+        <div>
+            <h1>Task 9.3. ButterflyControlr</h1>
+            <p>Создать страницу со следующим набором элементов (интерфейс приблизителен):</p>
+            <img src="ExampleMain.JPG"/>
+            
+            <p>
+                При нажатии кнопок <img class="imageInText" src="RightOne.JPG"/> и <img src="LeftOne.JPG"/> выделенные элементы из одного списка перекидываются в
+другой. При этом выделение с них снимается, и они добавляются в конец списка. Если ни один из
+элементов не выделен, выводится соответствующее сообщение.
+            </p>
+            
+            <p>При нажатии кнопок <img src="RightTwo.JPG"/> и <img src="LeftTwo.JPG"/> все элементы из одного списка перекидываются в другой. </p>
+            
+            <hr/>
+            
+            <div class="container">
+                <span class="available">
+                    <strong>Available</strong>
+                </span>
+                <span class="selected">
+                    <strong>Selected</strong>
+                </span>
+                <div class="options left">
+                    <select multiple size=5>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                        <option>Option 4</option>
+                        <option>Option 5</option>
+                    </select>
+                </div>
+
+                <div class="buttons">
+                    <input class="moveItem" data-move-Right data-all type="button" value=">>">
+                    <input class="moveItem" data-move-Right type="button" value=">">
+                    <input class="moveItem" data-move-Left type="button" value="<">
+                    <input class="moveItem" data-move-Left data-all type="button" value="<<">
+                </div>
+
+                <div class="options right">
+                    <select multiple size=5>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

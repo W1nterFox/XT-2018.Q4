@@ -1,0 +1,80 @@
+textarea {
+    resize: none;
+	margin-top: 10px;
+	display: inline;
+	width: 95%;
+	height: 80px;
+    border: 1px solid;
+}
+
+input[type=submit] {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#resultOfRemove {
+	margin-top: 20px;
+	width: 95%;
+	height: 80px;
+    border: 1px solid;
+}
+
+p img{
+    height: 30px;
+}
+
+.options
+{
+    width:100px;
+    height: 120px;
+    border:1px solid black;  
+    overflow: hidden;
+}
+
+select
+{
+    border: none;
+    width: 120px;
+}
+
+.left
+{
+    position: absolute;
+    left:5px;
+}
+
+.buttons
+{
+    position: absolute;
+    left: 110px;
+    top: 40px;
+}
+
+.right
+{
+    position: absolute;
+    left:155px;
+}
+
+.moveItem
+{
+    display: block;
+    width: 40px;
+}
+
+.container
+{
+    position: relative;
+    width: 260px;
+    height: 150px;
+}
+
+.available
+{
+    margin-left: 20px;
+}
+
+.selected
+{
+    margin-left:90px;
+}
