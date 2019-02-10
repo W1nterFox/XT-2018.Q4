@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountLogic.cs" />
     <Compile Include="AwardLogic.cs" />
     <Compile Include="DaoProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +68,10 @@
     <ProjectReference Include="..\Epam.UsersInfo.DAL\Epam.UsersInfo.FileDAL.csproj">
       <Project>{7D087491-3564-43BB-84CE-ACFE819880E0}</Project>
       <Name>Epam.UsersInfo.FileDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Epam.UsersInfo.DBDal\Epam.UsersInfo.DBDal.csproj">
+      <Project>{F7619583-380D-40DC-B82D-8A96C26C64C0}</Project>
+      <Name>Epam.UsersInfo.DBDal</Name>
     </ProjectReference>
     <ProjectReference Include="..\Epam.UsersInfo.Entities\Epam.UsersInfo.Entities.csproj">
       <Project>{6CDAAC9F-B9D9-4C85-A865-2C68F7F8F748}</Project>

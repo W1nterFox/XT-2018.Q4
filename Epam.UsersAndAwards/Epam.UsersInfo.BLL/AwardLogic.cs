@@ -104,5 +104,20 @@ namespace Epam.UsersInfo.BLL
 
             return this.awardDao.IsAwarded(id);
         }
+
+        public bool DeleteCascade(int id)
+        {
+            if (id < 1)
+            {
+                throw new ArgumentException("ID can't be less than 1");
+            }
+
+            if (!this.awardDao.Contains(id))
+            {
+                throw new ArgumentException("Can't find award with such ID");
+            }
+
+            return this.awardDao.RemoveCascade(id);
+        }
     }
 }

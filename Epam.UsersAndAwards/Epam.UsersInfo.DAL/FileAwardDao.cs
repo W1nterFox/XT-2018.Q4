@@ -108,5 +108,10 @@ namespace Epam.UsersInfo.DAL
         {
             throw new NotImplementedException();
         }
+
+        public bool RemoveCascade(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

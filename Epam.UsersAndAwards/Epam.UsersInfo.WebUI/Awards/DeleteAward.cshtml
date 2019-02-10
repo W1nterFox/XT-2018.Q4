@@ -1,0 +1,68 @@
+﻿@using Epam.UsersInfo.WebUI.Models;
+@{
+    if (!User.IsInRole("Admin"))
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+
+    Layout = "~/_Layout.cshtml";
+    bool failed = false;
+    if (IsPost)
+    {
+        int result;
+        var Id = Request["deleteId"];
+        if (int.TryParse(Id, out result))
+        {
+            try
+            {
+                if (Request["Visited"] == "true")
+                {
+                    Common.AwardBll.DeleteCascade(result);
+                    Response.Redirect("~/Awards/ShowAwards");
+                }
+
+
+                if (Common.AwardBll.IsAwarded(result))
+                {
+                    <form method="post">
+                        <p>One or more users have this award. Do you want to continue?</p>
+                        <input type="hidden" name="deleteId" value="@Request["deleteId"]" />
+                        <input type="hidden" name="Visited" value="true" />
+                        <button type="submit" class="btn btn-success">Yes, I want</button>
+                    </form>
+                    <br />
+                }
+                else
+                {
+                    Common.AwardBll.Delete(result);
+                    Response.Redirect("~/Awards/ShowAwards");
+                }
+            }
+            catch (Exception ex)
+            {
+                <div class="alert alert-danger">
+                    @ex.Message
+                </div>
+
+            }
+        }
+        else
+        {
+            failed = true;
+        }
+    }
+}
+@if (failed)
+{
+    <div class="alert alert-danger">
+        Id is not correct
+    </div>
+}
+
+<form method="post" class="form-inline">
+    <div class="form-group">
+        <label for="deleteId">ID</label>
+        <input type="text" class="form-control" id="deleteId" name="deleteId" placeholder="Enter ID">
+    </div>
+    <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#myModal"> Delete award</button>
+</form>

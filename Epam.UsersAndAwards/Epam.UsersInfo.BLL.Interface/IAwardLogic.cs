@@ -21,6 +21,8 @@ namespace Epam.UsersInfo.BLL.Interface
 
         bool Delete(int id);
 
+        bool DeleteCascade(int id);
+
         bool Contains(int id);
 
         bool Update(int id, Award award);

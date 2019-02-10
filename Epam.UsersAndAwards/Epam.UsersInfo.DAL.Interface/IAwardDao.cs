@@ -21,6 +21,8 @@ namespace Epam.UsersInfo.DAL.Interface
 
         bool Remove(int id);
 
+        bool RemoveCascade(int id);
+
         Award GetById(int id);
 
         bool Update(int id, Award award);
