@@ -11,6 +11,8 @@ namespace Epam.UsersInfo.BLL
 {
     public class AwardLogic : IAwardLogic
     {
+        private const int DefaultImageId = 1;
+
         private readonly IAwardDao awardDao = DaoProvider.AwardDao;
 
         public Award[] GetAll()
@@ -40,6 +42,11 @@ namespace Epam.UsersInfo.BLL
             if (award.Name.Contains('|'))
             {
                 throw new ArgumentException("Name of award can`t contains symbol '|'");
+            }
+
+            if (this.awardDao.GetAwardByAwardTitle(award.Name) != null)
+            {
+                throw new ArgumentException("Award with Name '" + award.Name + "' already exist");
             }
 
             return this.awardDao.Add(award);
@@ -87,6 +94,13 @@ namespace Epam.UsersInfo.BLL
                 throw new ArgumentException("Name of award can`t contains symbol '|'");
             }
 
+            var buf = this.awardDao.GetAwardByAwardTitle(award.Name);
+
+            if (buf != null && buf.Id != id)
+            {
+                throw new ArgumentException("Award with Name '" + award.Name + "' already exist");
+            }
+
             return this.awardDao.Update(id, award);
         }
 
@@ -118,6 +132,37 @@ namespace Epam.UsersInfo.BLL
             }
 
             return this.awardDao.RemoveCascade(id);
+        }
+
+        public bool AddImageToAward(Image image, string awardTitle)
+        {
+            Award award = this.awardDao.GetAwardByAwardTitle(awardTitle);
+
+            if (award != null)
+            {
+                return this.awardDao.AddImageToAward(image, award);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool AddDefaultAwardImage(Image image)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Image GetAwardImageByAwardImageId(int awardImageId)
+        {
+            Image image = null;
+            image = this.awardDao.GetAwardImageByAwardImageId(awardImageId);
+            if (image == null)
+            {
+                image = this.awardDao.GetAwardImageByAwardImageId(DefaultImageId);
+            }
+
+            return image;
         }
     }
 }

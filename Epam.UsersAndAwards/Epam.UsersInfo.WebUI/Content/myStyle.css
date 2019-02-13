@@ -27,3 +27,13 @@
     background-color: lightseagreen !important;
     border-color: lightseagreen !important;
 }
+
+.awardList_item__image {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.awardList_item__image_edit {
+    height: 200px;
+    margin-right: 10px;
+}

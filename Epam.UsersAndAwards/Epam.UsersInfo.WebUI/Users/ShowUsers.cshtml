@@ -1,6 +1,8 @@
-﻿@using Epam.UsersInfo.WebUI.Models;
+﻿@using Epam.UsersInfo.Entities;
+@using Epam.UsersInfo.WebUI.Models;
 @{
     Layout = "~/_Layout.cshtml";
+    Image image = null;
 }
 <div class="panel panel-default">
     <div class="panel-body">
@@ -13,7 +15,7 @@
                     <th>Age</th>
                     @if (User.IsInRole("User"))
                     {
-                        <th>Awards</th>
+                        <th style="width:300px;">Awards</th>
                     }
                 </tr>
             </thead>
@@ -30,7 +32,11 @@
                             <td>
                                 @foreach (var award in Common.AwardBll.GetAwardsByIds(Common.UserBll.GetUserAwardsIds(user.Id)))
                                 {
-                                    <text>@award.Name</text>
+                                    image = Common.AwardBll.GetAwardImageByAwardImageId(award.ImageId);
+                                    <div style="width:250px;">
+                                        <img class="awardList_item__image" src="data:@image.MimeType;base64,@image.ImageData" alt="Award image"/>
+                                        @award.Name
+                                    </div>
                                 }
                             </td>
                         }

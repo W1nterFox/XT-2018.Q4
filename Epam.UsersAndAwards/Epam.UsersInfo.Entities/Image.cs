@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Epam.UsersInfo.Entities
 {
-    public class Award
+    public class Image
     {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
         public int ImageId { get; set; }
+
+        public string MimeType { get; set; }
+
+        public string ImageData { get; set; }
     }
 }

@@ -15,23 +15,38 @@
         {
             var Id = int.Parse(Request["ID"]);
             Award award = Common.AwardBll.GetById(Id);
+            Image image = Common.AwardBll.GetAwardImageByAwardImageId(award.ImageId);
             <div class="form-group">
                 <label> Award name - @award.Name;</label>
+                <br/>
+                <img class="awardList_item__image_edit" src="data:@image.MimeType;base64,@image.ImageData" alt="Award image" />
             </div>
         }
         else
         {
             var Id = int.Parse(Request["ID"]);
             var title = Request["title"];
-
+            Award award = Common.AwardBll.GetById(Id);
             try
             {
                 if (String.IsNullOrWhiteSpace(title))
                 {
                     throw new ArgumentException("Title can't be null or white space");
                 }
-
+                
                 Common.AwardBll.Update(Id, new Award { Name = title });
+                
+                WebImage photo = null;
+                photo = WebImage.GetImageFromRequest();
+                if (photo != null)
+                {
+                    Image image = new Image();
+                    photo.Resize(width: 300, height: 300, preserveAspectRatio: true, preventEnlarge: true);
+                    image.MimeType = MimeMapping.GetMimeMapping(photo.FileName);
+                    byte[] data = photo.GetBytes(photo.ImageFormat);
+                    image.ImageData = Convert.ToBase64String(data);
+                    Common.AwardBll.AddImageToAward(image, title);
+                }
                 Response.Redirect("~/Awards/ShowAwards");
             }
             catch (Exception ex)
@@ -45,12 +60,17 @@
 }
 
 
-<form method="post" class="form-inline">
+<form method="post" class="form-inline" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="title">Title: </label>
+        <label for="name">Name: </label>
         <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+        <button type="submit" class="btn btn-info">Edit Award</button>
+        <input type="hidden" name="ID" value="@Request["ID"]" />
+        <input type="hidden" name="Visited" value="false" />
+        <br /><br />
+        <input type="file" accept="image/*" onchange="preview_image(event)" id="photo" name="photo">
     </div>
-    <button type="submit" class="btn btn-info"> Edit award</button>
-    <input type="hidden" name="ID" value="@Request["ID"]" />
-    <input type="hidden" name="Visited" value="false" />
+    <br />
+    <br />
+    <img id="output_image" />
 </form>

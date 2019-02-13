@@ -28,5 +28,11 @@ namespace Epam.UsersInfo.BLL.Interface
         bool Update(int id, Award award);
 
         bool IsAwarded(int id);
+
+        bool AddImageToAward(Image image, string awardTitle);
+
+        bool AddDefaultAwardImage(Image image);
+
+        Image GetAwardImageByAwardImageId(int awardImageId);
     }
 }

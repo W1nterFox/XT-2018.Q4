@@ -113,5 +113,30 @@ namespace Epam.UsersInfo.DAL
         {
             throw new NotImplementedException();
         }
+
+        public Award GetAwardByAwardTitle(string awardTitle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddImageToAward(Image image, Award award)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int AddAwardImage(Image image)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddDefaultAwardImage(Image image)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Image GetAwardImageByAwardImageId(int awardImageId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

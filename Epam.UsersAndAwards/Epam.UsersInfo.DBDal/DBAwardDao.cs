@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace Epam.UsersInfo.DBDal
 {
     public class DBAwardDao : IAwardDao
     {
+        private const int DefaultImageId = 1;
+
         private static string connectionStr;
 
         static DBAwardDao()
@@ -28,6 +31,7 @@ namespace Epam.UsersInfo.DBDal
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@Title", award.Name);
+                cmd.Parameters.AddWithValue("@AwardImageId", DefaultImageId);
 
                 connection.Open();
 
@@ -69,6 +73,7 @@ namespace Epam.UsersInfo.DBDal
 
         public IEnumerable<Award> GetAll()
         {
+            var list = new List<Award> { };
             using (var connection = new SqlConnection(connectionStr))
             {
                 SqlCommand cmd = connection.CreateCommand();
@@ -81,8 +86,11 @@ namespace Epam.UsersInfo.DBDal
                 {
                     int idAccount = (int)reader["Id"];
                     string title = (string)reader["Title"];
-                    yield return new Award { Name = title, Id = idAccount };
+                    int imageId = (int)reader["ImageID"];
+                    list.Add(new Award { Name = title, Id = idAccount, ImageId = imageId });
                 }
+
+                return list;
             }
         }
 
@@ -166,10 +174,155 @@ namespace Epam.UsersInfo.DBDal
                 {
                     int idAccount = (int)reader["Id"];
                     string title = (string)reader["Title"];
-                    award = new Award { Name = title, Id = idAccount };
+                    int awardImageId = (int)reader["ImageId"];
+                    award = new Award { Name = title, Id = idAccount, ImageId = awardImageId };
                 }
 
                 return award;
+            }
+        }
+
+        public Award GetAwardByAwardTitle(string awardTitle)
+        {
+            Award award = new Award();
+            using (var con = new SqlConnection(connectionStr))
+            {
+                var cmd = con.CreateCommand();
+                cmd.CommandText = "Awards_GetAwardByTitle";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@AwardTitle", awardTitle);
+
+                con.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    award.Id = (int)reader["Id"];
+                    award.Name = (string)reader["Title"];
+                    award.ImageId = (int)reader["ImageId"];
+                }
+            }
+
+            if (award.Id == 0)
+            {
+                return null;
+            }
+
+            return award;
+        }
+
+        public Image GetAwardImageByAwardImageId(int awardImageId)
+        {
+            Image image = new Image();
+            using (var con = new SqlConnection(connectionStr))
+            {
+                var cmd = con.CreateCommand();
+                cmd.CommandText = "AwardsImages_GetById";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@ImageId", awardImageId);
+
+                con.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    image.ImageId = (int)reader["Id"];
+                    image.MimeType = (string)reader["MimeType"];
+                    image.ImageData = (string)reader["ImageData"];
+                }
+            }
+
+            if (image.ImageId == 0)
+            {
+                return null;
+            }
+
+            return image;
+        }
+
+        public bool AddDefaultAwardImage(Image image)
+        {
+            using (var con = new SqlConnection(connectionStr))
+            {
+                var cmd = con.CreateCommand();
+                cmd.CommandText = "AwardsImage_AddDefault";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@MimeType", image.MimeType);
+                cmd.Parameters.AddWithValue("@ImageData", image.ImageData);
+
+                con.Open();
+                return cmd.ExecuteNonQuery() == 1;
+            }
+        }
+
+        public int AddAwardImage(Image image)
+        {
+            int imageId = 0;
+
+            using (var con = new SqlConnection(connectionStr))
+            {
+                var cmd = con.CreateCommand();
+                cmd.CommandText = "AwardsImages_Add";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@MimeType", image.MimeType);
+                cmd.Parameters.AddWithValue("@ImageData", image.ImageData);
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Direction = ParameterDirection.Output });
+
+                con.Open();
+
+                cmd.ExecuteNonQuery();
+                imageId = (int)cmd.Parameters["@Id"].Value;
+            }
+
+            return imageId;
+        }
+
+        public bool AddImageToAward(Image image, Award award)
+        {
+            int oldImageId = award.ImageId;
+            bool result;
+            int imageId = this.AddAwardImage(image);
+
+            if (imageId == 0)
+            {
+                return false;
+            }
+
+            using (var con = new SqlConnection(connectionStr))
+            {
+                var cmd = con.CreateCommand();
+                cmd.CommandText = "Awards_AddImageToAward";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@AwardId", award.Id);
+                cmd.Parameters.AddWithValue("@ImageId", imageId);
+
+                con.Open();
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+
+            if (oldImageId != DefaultImageId)
+            {
+                this.RemoveImageFromDB(oldImageId);
+            }
+
+            return result;
+        }
+
+        private bool RemoveImageFromDB(int imageId)
+        {
+            using (var con = new SqlConnection(connectionStr))
+            {
+                var cmd = con.CreateCommand();
+                cmd.CommandText = "AwardsImages_RemoveImage";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@ImageId", imageId);
+
+                con.Open();
+                return cmd.ExecuteNonQuery() == 1;
             }
         }
     }

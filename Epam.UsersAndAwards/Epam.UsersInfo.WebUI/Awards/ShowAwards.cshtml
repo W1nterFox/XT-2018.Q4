@@ -1,30 +1,47 @@
-﻿@using Epam.UsersInfo.WebUI.Models;
+﻿@using Epam.UsersInfo.Entities;
+@using Epam.UsersInfo.WebUI.Models;
 @{
     if (!User.IsInRole("Admin"))
     {
         Response.SetStatus(HttpStatusCode.Forbidden);
     }
+    Image image = null;
+    var awards = Common.AwardBll.GetAll();
     Layout = "~/_Layout.cshtml";
 }
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var award in Common.AwardBll.GetAll())
-                {
+
+        
+            <table>
+                <thead>
                     <tr>
-                        <td>@award.Id</td>
-                        <td>@award.Name</td>
+                        <th>ID</th>
+                        <th>Picture</th>
+                        <th>Title</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var award in awards)
+                    {
+                        image = Common.AwardBll.GetAwardImageByAwardImageId(award.ImageId);
+                        <tr>
+                            <td style="width:35px;">
+                                <p>@award.Id</p>
+                            </td>
+                            <td data-id="@award.Id" style="width:50px;">
+                                <img class="awardList_item__image" src="data:@image.MimeType;base64,@image.ImageData" alt="Award image" />
+                            </td>
+                            <td>
+                                <p>@award.Name</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        
+
+        
     </div>
 </div>

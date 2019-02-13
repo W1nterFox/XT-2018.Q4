@@ -28,5 +28,15 @@ namespace Epam.UsersInfo.DAL.Interface
         bool Update(int id, Award award);
 
         bool IsAwarded(int id);
+
+        Award GetAwardByAwardTitle(string awardTitle);
+
+        bool AddImageToAward(Image image, Award award);
+
+        int AddAwardImage(Image image);
+
+        bool AddDefaultAwardImage(Image image);
+
+        Image GetAwardImageByAwardImageId(int awardImageId);
     }
 }
